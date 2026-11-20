@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Angel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #07090e;
+      --card-dark: #0e131f;
+      --royal-blue: #2563eb;
+      --glow-blue: #3b82f6;
+      --ice-white: #f8fafc;
+      --muted-slate: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--ice-white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 45%);
+    }
+
+    .container {
+      background: var(--card-dark);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(37, 99, 235, 0.15);
+      position: relative;
+    }
+
+    .music-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.32);
+      border-radius: 50px;
+      padding: 8px 14px;
+      margin-bottom: 22px;
+      font-size: 0.78rem;
+      color: var(--ice-white);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .music-pill:hover {
+      border-color: var(--glow-blue);
+      background: rgba(37, 99, 235, 0.22);
+    }
+
+    .bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 12px;
+    }
+
+    .bars span {
+      width: 2.5px;
+      height: 4px;
+      background: var(--glow-blue);
+      border-radius: 2px;
+      transition: height 0.2s ease;
+    }
+
+    .playing .bars span:nth-child(1) { animation: wave 1.1s infinite ease-in-out; }
+    .playing .bars span:nth-child(2) { animation: wave 0.85s infinite ease-in-out 0.2s; }
+    .playing .bars span:nth-child(3) { animation: wave 1.25s infinite ease-in-out 0.4s; }
+
+    @keyframes wave {
+      0%, 100% { height: 3px; }
+      50% { height: 12px; }
+    }
+
+    .track-meta {
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .track-title {
+      font-weight: 600;
+      color: var(--ice-white);
+    }
+
+    .track-artist {
+      font-size: 0.7rem;
+      color: var(--muted-slate);
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.85rem;
+      color: var(--ice-white);
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      color: var(--muted-slate);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .highlight {
+      color: var(--ice-white);
+      font-weight: 600;
+    }
+
+    .blue-text {
+      color: var(--glow-blue);
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), transparent);
+      margin: 24px 0;
+    }
+
+    .question-box {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ice-white);
+      margin-bottom: 28px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      min-height: 56px;
+      position: relative;
+    }
+
+    button {
+      padding: 13px 28px;
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    #yesBtn {
+      background: var(--royal-blue);
+      color: var(--ice-white);
+      border: none;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.45);
+    }
+
+    #yesBtn:hover {
+      background: var(--glow-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.65);
+    }
+
+    #noBtn {
+      background: transparent;
+      color: var(--muted-slate);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .success-screen {
+      display: none;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .success-screen h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.75rem;
+      color: var(--ice-white);
+      margin-bottom: 12px;
+    }
+
+    .success-screen p {
+      color: var(--muted-slate);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .treaty-card {
+      background: rgba(7, 9, 14, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--ice-white);
+    }
+
+    .treaty-card div {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .treaty-card div:last-child {
+      margin-bottom: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background-color: var(--glow-blue);
+      top: -10px;
+      z-index: 999;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Replace PASTE_AUDIO_URL_HERE with a direct link to your "Yes To Heaven" audio file -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="./yes_to _heaven.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <div id="askView">
+      <div id="musicPill" class="music-pill" title="Tap to toggle music">
+        <div class="bars">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="track-meta">
+          <div class="track-title">Yes To Heaven</div>
+          <div id="musicStatus" class="track-artist">Lana Del Rey · Tap to play</div>
+        </div>
+      </div>
+
+      <h1>✨ For My Angel, Rae ✨</h1>
+      <p class="subtitle">
+        Through all the noise, the late nights, and the battles I had to fight to get back to you, one truth never changed:  <br> <span class="highlight">you are my peace.</span><br><br>
+        I don’t want to leave what we have undefined anymore.
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="question-box">
+        Miracle Chinaza Abonyi,<br><br>
+        <span class="blue-text">will you officially be my girlfriend?</span>
+      </div>
+
+      <div class="btn-group">
+        <button id="yesBtn">Yes, I will 🤍</button>
+        <button id="noBtn">Let me think...</button>
+      </div>
+    </div>
+
+    <div id="successView" class="success-screen">
+      <h2>Huarry I got myself an angel</h2>
+      <p>
+        Thank you babyyy, this is the best decision you ever made, and I promise that you won't regret it.
+      </p>
+      <div class="treaty-card">
+        <div>💙 <span><strong>Status:</strong> Officially Taken</span></div>
+        <div>🎶 <span><strong>Soundtrack:</strong> Yes To Heaven</span></div>
+        <div>⏳ <span><strong>Term:</strong> Long-term ♾</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const askView = document.getElementById('askView');
+    const successView = document.getElementById('successView');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicPill = document.getElementById('musicPill');
+    const musicStatus = document.getElementById('musicStatus');
+
+    let isPlaying = false;
+    let fadeInterval = null;
+
+    function slowFadeIn(targetVolume = 0.35) {
+      bgMusic.volume = 0;
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicPill.classList.add('playing');
+        musicStatus.textContent = "Lana Del Rey · Is Playing";
+        clearInterval(fadeInterval);
+        fadeInterval = setInterval(() => {
+          if (bgMusic.volume < targetVolume - 0.02) {
+            bgMusic.volume = Math.min(targetVolume, bgMusic.volume + 0.02);
+          } else {
+            bgMusic.volume = targetVolume;
+            clearInterval(fadeInterval);
+          }
+        }, 180);
+      }).catch(() => {});
+    }
+
+    function toggleMusic(e) {
+      if (e) e.stopPropagation();
+      if (!isPlaying) {
+        slowFadeIn(0.35);
+      } else {
+        bgMusic.pause();
+        isPlaying = false;
+        musicPill.classList.remove('playing');
+        musicStatus.textContent = "Lana Del Rey · Paused (tap to play)";
+      }
+    }
+
+    musicPill.addEventListener('click', toggleMusic);
+
+    document.addEventListener('pointerdown', () => {
+      if (!isPlaying && bgMusic.querySelector('source').getAttribute('src') !== 'PASTE_AUDIO_URL_HERE') {
+        slowFadeIn(0.35);
+      }
+    }, { once: true });
+
+    const dodgeTexts = [
+      "Are you sure? 😓",
+      "I won't take NO yk 😏",
+      "Nice try, Rae 👀",
+      "Wrong button! 🚨",
+      "Tap the blue one, pleaseeeeeee 😫",
+      "Error 404: No not found"
+    ];
+    let dodgeCount = 0;
+
+    function moveButton() {
+      const x = Math.floor(Math.random() * 140) - 70;
+      const y = Math.floor(Math.random() * 100) - 50;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      noBtn.textContent = dodgeTexts[dodgeCount % dodgeTexts.length];
+      dodgeCount++;
+    }
+
+    noBtn.addEventListener('mouseover', moveButton);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveButton();
+    });
+
+    yesBtn.addEventListener('click', () => {
+      if (!isPlaying && bgMusic.querySelector('source').getAttribute('src') !== 'PASTE_AUDIO_URL_HERE') {
+        slowFadeIn(0.45);
+      }
+      askView.style.display = 'none';
+      successView.style.display = 'block';
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      const colors = ['#2563eb', '#3b82f6', '#f8fafc', '#60a5fa'];
+      for (let i = 0; i < 65; i++) {
+        const conf = document.createElement('div');
+        conf.classList.add('confetti');
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        conf.style.opacity = Math.random();
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 4000);
+      }
+    }
+  </script>
+</body>
+</html>
